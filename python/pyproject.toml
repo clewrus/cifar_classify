@@ -1,0 +1,19 @@
+[project]
+name = "cifar_classify"
+version = "0.1.0"
+description = "CIFAR image classification project"
+authors = [{name="Oleksii Saitarly", email="saitarly.oleksii@gmail.com"}]
+
+dependencies = [
+  "numpy",
+  "torch>=2.8.0",
+  "torchvision>=0.23.0",
+  "pytorch-lightning>=2.5.4"
+]
+
+[build-system]
+build-backend = "setuptools.build_meta"
+requires = ["setuptools", "wheel"]
+
+[tool.setuptools]
+py-modules = ["export", "train"]
