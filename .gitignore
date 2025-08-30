@@ -1,1 +1,6 @@
 *.egg-info
+python/build
+.vscode
+lightning_logs
+samples/cifar*
+__pycache__
