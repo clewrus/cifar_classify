@@ -4,3 +4,4 @@ python/build
 lightning_logs
 samples/cifar*
 __pycache__
+build
