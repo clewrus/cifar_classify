@@ -1,0 +1,7 @@
+batch_size: 64
+crop_bounds: !!python/tuple
+- 0.4
+- 1
+exp_scheduler_gamma: 1
+lr: 0.0005
+num_workers: 8
