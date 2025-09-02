@@ -1,26 +1,28 @@
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
+from pytorch_lightning.callbacks import ModelCheckpoint
 import torch
-from torch import nn
+from torch import nn, optim
 
 from torch.utils.data import DataLoader
 from torchvision import transforms, datasets
 
 from pathlib import Path
 
-
 DS_PATH = Path(Path(__file__).parent.parent, "samples")
 
 class CIFAR10DataModule(pl.LightningDataModule):
-	def __init__(self, data_dir=DS_PATH, batch_size=64, num_workers=2):
+	def __init__(self, data_dir=DS_PATH, batch_size=64, num_workers=8, crop_bounds=(0.4, 1)):
 		super().__init__()
+		self.save_hyperparameters(ignore="data_dir")
+
 		self.data_dir = data_dir
 		self.batch_size = batch_size
 		self.num_workers = num_workers
 		self.train_transform = transforms.Compose([
 			transforms.ToTensor(),
 			transforms.RandomHorizontalFlip(),
-			transforms.RandomResizedCrop(32, (0.5, 1))
+			transforms.RandomResizedCrop(32, crop_bounds)
 		])
 		self.val_transform = transforms.Compose([
 			transforms.ToTensor(),
@@ -56,8 +58,10 @@ class SimpleCNNNet(nn.Module):
 		return self.head(self.net(x))
 
 class SimPL(pl.LightningModule):
-	def __init__(self):
+	def __init__(self, lr=0.0005, exp_scheduler_gamma=1):
 		super().__init__()
+		self.save_hyperparameters()
+
 		self.model = SimpleCNNNet()
 		self.loss = nn.NLLLoss()
 
@@ -83,13 +87,27 @@ class SimPL(pl.LightningModule):
 		return {"val_loss": loss, "val_acc": acc}
 
 	def configure_optimizers(self):
-		return torch.optim.Adam(self.parameters(), lr=0.0005)
+		optimizer = torch.optim.Adam(self.parameters(), lr=self.hparams.lr)
+
+		if self.hparams.exp_scheduler_gamma < 1:	
+			scheduler = optim.lr_scheduler.ExponentialLR(optimizer, self.hparams.exp_scheduler_gamma)
+			return {"optimizer": optimizer, "scheduler": scheduler}
+		
+		return optimizer
 
 def main():
 	data_module = CIFAR10DataModule()
 	model = SimPL()
+
 	tb_logger = TensorBoardLogger("lightning_logs", name="cifar10")
-	trainer = pl.Trainer(max_epochs=50, logger=tb_logger)
+	checkpoint_callback = ModelCheckpoint(
+		monitor="val_acc",
+		mode="max",
+		save_top_k=1,
+		filename="best-val-acc-{val_acc:.4f}"
+	)
+	
+	trainer = pl.Trainer(max_epochs=256, logger=tb_logger, callbacks=[checkpoint_callback])
 	trainer.fit(model, datamodule=data_module)
 
 if __name__ == "__main__":

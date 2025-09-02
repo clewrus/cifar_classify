@@ -6,7 +6,7 @@ import numpy as np
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 
-DEFAULT_CHECKPOINT = Path(r"C:\Users\Oleksii\Documents\OnlineEducation\ComputerVision\cifar_classify\lightning_logs\cifar10\version_11\checkpoints\epoch=49-step=39100.ckpt")
+DEFAULT_CHECKPOINT = Path(Path(__file__).parent.parent, r"lightning_logs\cifar10\version_21\checkpoints\best-val-acc-val_acc=0.8203.ckpt")
 DEFAULT_ONNX_DEST = Path(Path(__file__).parent.parent, "models", "model.onnx")
 
 def export_to_onnx(checkpoint: Path, output: Path) -> None:
@@ -24,7 +24,7 @@ def export_to_onnx(checkpoint: Path, output: Path) -> None:
 		dummy_input,
 		output,
 		opset_version=12,
-		verbose=True,
+		verbose=False,
 		dynamo=False, # New stuff does not work :(
 		optimize=True,
 		profile=True,
