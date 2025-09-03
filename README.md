@@ -1,4 +1,5 @@
 ## Run python
+Start from the repo dir
 ```ps
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
@@ -30,8 +31,11 @@ python -m python.export --checkpoint path_to_checkpoint --output path_to_output
 So, I've developed it all on Windows, so it is buildable on Windows
 To support linux, update CMakeLists.txt (write a new one :=^)
 
+
+Start from the repo dir.
 ```ps
 mkdir build
+cd build
 ```
 
 ```ps
