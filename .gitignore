@@ -3,5 +3,6 @@ python/build
 .vscode
 lightning_logs
 samples/cifar*
+samples/tmp.jpg
 __pycache__
 build
