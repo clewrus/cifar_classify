@@ -1,6 +1,7 @@
 ## Run python
 ```ps
 python -m venv .venv
+.\.venv\Scripts\Activate.ps1
 ```
 If you need cuda acceleration you may need to install torch and torchvision with the correct cuda.
 If you don't need the training capabilities, skip it and the cpu version will be installed
@@ -10,7 +11,6 @@ python -m pip install torch torchvision --index-url https://download.pytorch.org
 ```
 
 ```ps
-.\.venv\Scripts\Activate.ps1
 python -m pip install .\python
 ```
 
