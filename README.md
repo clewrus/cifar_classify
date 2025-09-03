@@ -1,4 +1,20 @@
+## Run python
+```ps
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install .\python
+```
 
+To train a network 
+```ps
+python -m python.train
+```
+
+The training will start, the logs for tensorboard and checkpoints will appear in lightning_logs directory. Once you have the checkpoint (it is already present in repo), you can generate .onnx with
+
+```ps
+python -m python.export --checkpoint <path_to_checkpoint> --output <path to output>
+```
 
 
 ## Building c++
@@ -14,7 +30,8 @@ cmake -G "Visual Studio 17 2022" -A x64 ../cpp
 ```
 <details>
   <summary>Output</summary>
-  -- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26100.
+```ps
+-- Selecting Windows SDK version 10.0.22621.0 to target Windows 10.0.26100.
 -- The CXX compiler identification is MSVC 19.37.32825.0
 -- Detecting CXX compiler ABI info
 -- Detecting CXX compiler ABI info - done
@@ -37,6 +54,7 @@ cmake -G "Visual Studio 17 2022" -A x64 ../cpp
 -- Configuring done (4.4s)
 -- Generating done (0.1s)
 -- Build files have been written to: C:/Users/Oleksii/Documents/OnlineEducation/ComputerVision/cifar_classify/build
+```
 </details>
 
 ```ps
@@ -44,6 +62,7 @@ cmake --build . --config Release -- /m
 ```
 <details>
   <summary>Output</summary>
+```ps
   MSBuild version 17.7.2+d6990bcfa for .NET Framework
 
   1>Checking Build System
@@ -81,6 +100,7 @@ cmake --build . --config Release -- /m
   k_main.lib
   Tests.vcxproj -> C:\Users\Oleksii\Documents\OnlineEducation\ComputerVision\cifar_classify\build\Release\Tests.exe
   Building Custom Rule C:/Users/Oleksii/Documents/OnlineEducation/ComputerVision/cifar_classify/cpp/CMakeLists.txt
+```
 </details>
 
 ```ps
@@ -88,6 +108,7 @@ ctest --output-on-failure
 ```
 <details>
   <summary>Output</summary>
+```ps
   Test project C:/Users/Oleksii/Documents/OnlineEducation/ComputerVision/cifar_classify/build
     Start 1: TestPreprocessing.Normalize01
 1/5 Test #1: TestPreprocessing.Normalize01 ..........   Passed    0.02 sec
@@ -103,6 +124,7 @@ ctest --output-on-failure
 100% tests passed, 0 tests failed out of 5
 
 Total Test time (real) =   0.29 sec
+```
 </details>
 
 ```ps
