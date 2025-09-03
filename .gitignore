@@ -6,3 +6,4 @@ samples/cifar*
 samples/tmp.jpg
 __pycache__
 build
+cpp\ext\opencv\lib\opencv_world4120d.dll

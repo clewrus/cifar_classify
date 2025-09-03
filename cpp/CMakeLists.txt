@@ -30,7 +30,7 @@ function(copy_runtime_dlls target_name)
             "${ORT_DIR}/lib/onnxruntime.dll"
             $<TARGET_FILE_DIR:${target_name}>
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            $<$<CONFIG:Debug>:"${OpenCV_DIR}/lib/opencv_world4120d.dll">
+            # $<$<CONFIG:Debug>:"${OpenCV_DIR}/lib/opencv_world4120d.dll">     # Too large for Github (
             $<$<CONFIG:Release>:"${OpenCV_DIR}/lib/opencv_world4120.dll">
             $<TARGET_FILE_DIR:${target_name}>
     )
